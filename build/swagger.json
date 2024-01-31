@@ -1,0 +1,1290 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Portal_Videojuegos",
+        "description": "<html><body> Punto de venta virtual de videojuegos </body></html>",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "18.116.42.211:3000",
+    "basePath": "",
+    "tags": [
+        {
+            "name": "Usuarios",
+            "description": "API para obtener información de los usuarios del punto de venta"
+        },
+        {
+            "name": "Biblioteca",
+            "description": "API para obtener información de bibliotecas de usuario"
+        },
+        {
+            "name": "Juegos",
+            "description": "API para obtener información de los juegos con los que cuenta el portal"
+        },
+        {
+            "name": "Carrito",
+            "description": "API para obtener información de los carritos de los usuarios, es decir, las compras que el usuario desea"
+        },
+        {
+            "name": "Ventas",
+            "description": "API para obtener información de las ventas realizadas en el portal"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/api/usuario/mostrarTodosUsuarios": {
+            "get": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Listado de todos los usuarios que se encuentran en el portal",
+                "description": "<p>Servicio que devuelve la información detallada de todos los usuarios del portal</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "alias": "Astaroth",
+                                    "correo": "holacomo@adios.com",
+                                    "password": "utm123*",
+                                    "ano_ingreso": "2002-02-07"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Usuarios"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [{
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    }]
+            }
+        },
+        "/api/usuario/obtenerUsuario/{id}": {
+            "get": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Obtiene un usuario por medio del id",
+                "description": "<p>Servicio que devuelve la información detallada del usuario soliciado</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id": 10,
+                                    "alias": "Chato",
+                                    "correo": "chato@gmail.com",
+                                    "password": "789*",
+                                    "ano_ingreso": "2016-02-06"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Usuario"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del usuario",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/usuario/ValidarUsuario": {
+            "post": {
+                "summary": "Validación del usuario",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Correo y contraseña del usuario para validarlo",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/validarUsuario"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario aceptado"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/usuario/crearUsuario": {
+            "post": {
+                "summary": "Crea a un usuario nuevo",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Usuario agregado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nuevoUsuario"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Insertado con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/usuario/actualizarUsuario/{id}": {
+            "put": {
+                "summary": "Modificación del usuario",
+                "operationId": "update",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "identificador del usuario",
+                        "required": true,
+                        "default": 1
+                    },
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Informacion del usuario",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nuevoUsuario"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/usuario/eliminarUsuario/{id}": {
+            "delete": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Eliminar el usuario del portal dado su identificador, asi como su carrito y su biblioteca",
+                "description": "<p>Servicio que elimina el usuario dado el identificador enviado</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del usuario",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/biblioteca/mostrarbiblioteca": {
+            "get": {
+                "tags": [
+                    "Biblioteca"
+                ],
+                "summary": "Listado de todas las bibliotecas de los usuarios",
+                "description": "<p>Servicio que devuelve la información detallada de la biblioteca de los usuarios</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_usuario": 1,
+                                    "id_juego": 2,
+                                    "fecha_compra": "2020-06-09",
+                                    "precio_juego": 999.00
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Bibliotecas"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [{
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    }]
+            }
+        },
+        "/api/biblioteca/usuariobiblioteca/{id}": {
+            "get": {
+                "tags": [
+                    "Biblioteca"
+                ],
+                "summary": "Obtiene la biblioteca de un usuario",
+                "description": "<p>Servicio que devuelve la información detallada de la biblioteca de un usuario</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_usuario": 1,
+                                    "id_juego": 5,
+                                    "fecha_compra": "2020-06-09",
+                                    "precio_juego": 55.00
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Biblioteca"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Identificador del usuario para obtener biblioteca",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/juegos/mostrarJuegos": {
+            "get": {
+                "tags": [
+                    "Juegos"
+                ],
+                "summary": "Listado de todos los juegos",
+                "description": "<p>Servicio que devuelve todos los juegos con el que cuenta el portal</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_juego": 1,
+                                    "nombre": "Mortal Kombat",
+                                    "fecha_lanzamiento": "2023-19-09",
+                                    "clasificacion": "+18",
+                                    "plataforma": "playstation",
+                                    "precio": 999.00
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Juegos"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [{
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    }]
+            }
+        },
+        "/api/juegos/juegosPlataforma/{plataforma}": {
+            "get": {
+                "tags": [
+                    "Juegos"
+                ],
+                "summary": "Obtiene juegos de alguna plataforma",
+                "description": "<p>Servicio que devuelve la información detallada de los juegos de alguna plataforma</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_juego": 10,
+                                    "nombre": "Mortal Kombat",
+                                    "fecha_lanzamiento": "2023-19-09",
+                                    "clasificacion": "+18",
+                                    "plataforma": "Playstation",
+                                    "precio": 999.00
+                                },
+                                {
+                                    "id_juego": 9,
+                                    "nombre": "Soul Calibur V",
+                                    "fecha_lanzamiento": "2023-19-09",
+                                    "clasificacion": "A",
+                                    "plataforma": "PC",
+                                    "precio": 999.00
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Juegos"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "plataforma",
+                        "in": "path",
+                        "required": true,
+                        "description": "plataforma a filtrar",
+                        "type": "string",
+                        "default": "Playstation"
+                    }
+                ]
+            }
+        },
+        "/api/juegos/insertaJuego": {
+            "post": {
+                "summary": "Inserta un nuevo juego al catalogo",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "Juego",
+                        "in": "body",
+                        "description": "Datos del juego a ingresar",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nuevoJuego"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Juegos"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Juego insertado con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/juegos/actualizarJuego/{id}": {
+            "put": {
+                "summary": "Actualización del juego",
+                "operationId": "update",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "identificador del juego",
+                        "required": true,
+                        "default": 1
+                    },
+                    {
+                        "name": "Juego",
+                        "in": "body",
+                        "description": "Datos del juego",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nuevoJuego"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Juegos"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/juegos/eliminarJuego/{id}": {
+            "delete": {
+                "tags": [
+                    "Juegos"
+                ],
+                "summary": "Eliminar el juego del portal dado su identificador",
+                "description": "<p>Servicio que elimina el juego dado el identificador enviado</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del juego",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/carrito/agregaACarrito": {
+            "post": {
+                "summary": "Agrega un nuevo producto al carrito, es decir, aqui se encuentran los productos que el usuario desea comprar",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "Carrito",
+                        "in": "body",
+                        "description": "Datos que necesita el carrito",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/agregaCarrito"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Carrito"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Juego agregado al carrito con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/carrito/mostrarCarritos": {
+            "get": {
+                "tags": [
+                    "Carrito"
+                ],
+                "summary": "Listado de todos los carritos",
+                "description": "<p>Servicio que devuelve todos los juegos con el que cuenta el portal</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_usuario": 1,
+                                    "id_juego": 2,
+                                    "precio_juego": 145.32
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/carritos"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [{
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    }]
+            }
+        },
+        "/api/carrito/carritoUsuario/{id_usuario}": {
+            "get": {
+                "tags": [
+                    "Carrito"
+                ],
+                "summary": "Obtiene el carrito de un usuario",
+                "description": "<p>Servicio que devuelve la información detallada del carrito de un usuario</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_usuario": 1,
+                                    "id_juego": 13,
+                                    "precio_juego": 145.32
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/carrito"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id_usuario",
+                        "in": "path",
+                        "required": true,
+                        "description": "Identificador del usuario para obtener el carrito",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/carrito/totalAPagar/{id_usuario}": {
+            "get": {
+                "tags": [
+                    "Carrito"
+                ],
+                "summary": "Obtiene el total a pagar",
+                "description": "<p>Servicio que devuelve el total a pagar de los juegos del carrito</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_usuario": 3,
+                                    "Total": 1365.23
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/TotalCarrito"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id_usuario",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del usuario",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/carrito/eliminarProducto/{id}": {
+            "delete": {
+                "tags": [
+                    "Carrito"
+                ],
+                "summary": "Elimina algun producto del carrito",
+                "description": "<p>Servicio que elimina algun alrticulo del carrito dado el id del usuario enviado</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del usuario",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/carrito/eliminarCarrito/{id}": {
+            "delete": {
+                "tags": [
+                    "Carrito"
+                ],
+                "summary": "Elimina el carrito de un usuario",
+                "description": "<p>Servicio que elimina el carrito de un usuario</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del usuario",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/ventas/ingresaVenta": {
+            "post": {
+                "summary": "Crea una nueva venta, es decir se crea una compra",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "Venta",
+                        "in": "body",
+                        "description": "Datos de la venta",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nuevaVenta"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Ventas"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Venta agregada"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/ventas/mostrarVentas": {
+            "get": {
+                "tags": [
+                    "Ventas"
+                ],
+                "summary": "Listado de todas las ventas del portal",
+                "description": "<p>Servicio que devuelve la información detallada de todas las ventas del portal</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "Codigo": 1,
+                                    "id_usuario": 3,
+                                    "id_juego": 3,
+                                    "precio_juego": 999.00,
+                                    "fecha_compra": "2015-01-01"
+                                },
+                                {
+                                    "Codigo": 2,
+                                    "id_usuario": 3,
+                                    "id_juego": 13,
+                                    "precio_juego": 565.50,
+                                    "fecha_compra": "2015-01-01"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Ventas"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [{
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    }]
+            }
+        },
+        "/api/ventas/ventaUsuario/{id}": {
+            "get": {
+                "tags": [
+                    "Ventas"
+                ],
+                "summary": "Obtiene las compras de un usuario",
+                "description": "<p>Servicio que devuelve la información detallada de la compra de un usuario</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "Codigo": 1,
+                                    "id_usuario": 3,
+                                    "id_juego": 3,
+                                    "precio_juego": 999.00,
+                                    "fecha_compra": "2022-05-11"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Venta"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del usuario",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/ventas/totalPagado/{id_usuario}": {
+            "get": {
+                "tags": [
+                    "Ventas"
+                ],
+                "summary": "Obtiene el total pagado",
+                "description": "<p>Servicio que devuelve la información del total que ha gastado el usuario en juegos</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_usuario": 3,
+                                    "Total": 5321.23
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/TotalVentas"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "id_usuario",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del usuario",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/ventas/eliminarVenta/{codigo}": {
+            "delete": {
+                "tags": [
+                    "Ventas"
+                ],
+                "summary": "Elimina alguna venta",
+                "description": "<p>Servicio que elimina alguna venta</p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "codigo",
+                        "in": "path",
+                        "required": true,
+                        "description": "codigo de la venta",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "Usuario": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al usuario"
+                },
+                "alias": {
+                    "type": "string",
+                    "description": "Apodo con el que se llamara al usuario"
+                },
+                "correo": {
+                    "type": "string",
+                    "description": "Correo del usuario"
+                },
+                "ano_ingreso": {
+                    "type": "date",
+                    "description": "Fecha en el que el usuario ingreso por primera vez al portal"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Contrasena del usuario"
+                }
+            }
+        },
+        "nuevoUsuario": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "type": "string",
+                    "description": "Apodo con el que se llamara al usuario"
+                },
+                "correo": {
+                    "type": "string",
+                    "description": "Correo del usuario"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Contrasena del usuario"
+                }
+            }
+        },
+        "validarUsuario": {
+            "type": "object",
+            "properties": {
+                "correo": {
+                    "type": "string",
+                    "description": "Correo del usuario"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Contrasena del usuario"
+                }
+            }
+        },
+        "Usuarios": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Usuario"
+            }
+        },
+        "Biblioteca": {
+            "type": "object",
+            "properties": {
+                "id_usuario": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar la biblioteca del usuario"
+                },
+                "id_juego": {
+                    "type": "number",
+                    "description": "identificador del juego"
+                },
+                "fecha_compra": {
+                    "type": "date",
+                    "description": "Fecha en el que compro el juego"
+                },
+                "precio_juego": {
+                    "type": "float",
+                    "description": "Precio del juego que adquirio"
+                }
+            }
+        },
+        "Bibliotecas": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Biblioteca"
+            }
+        },
+        "Juego": {
+            "type": "object",
+            "properties": {
+                "id_juego": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al juego"
+                },
+                "nombre": {
+                    "type": "string",
+                    "description": "Nombre del juego"
+                },
+                "fecha_lanzamiento": {
+                    "type": "date",
+                    "description": "Fecha en el que el juego salio"
+                },
+                "clasificacion": {
+                    "type": "string",
+                    "description": "Clasificacion del juego"
+                },
+                "plataforma": {
+                    "type": "string",
+                    "description": "Plataforma en la que esta disponible el juego"
+                },
+                "precio": {
+                    "type": "float",
+                    "description": "Precio del juego"
+                }
+            }
+        },
+        "Juegos": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Juego"
+            }
+        },
+        "nuevoJuego": {
+            "type": "object",
+            "properties": {
+                "nombre": {
+                    "type": "string",
+                    "description": "Nombre del juego"
+                },
+                "fecha_lanzamiento": {
+                    "type": "date",
+                    "description": "Fecha en que salio el juego"
+                },
+                "clasificacion": {
+                    "type": "string",
+                    "description": "Clasificacion del juego"
+                },
+                "plataforma": {
+                    "type": "string",
+                    "description": "Plataforma en la que esta disponible el juego"
+                },
+                "precio": {
+                    "type": "float",
+                    "description": "Precio del juego"
+                }
+            }
+        },
+        "agregaCarrito": {
+            "type": "object",
+            "properties": {
+                "id_usuario": {
+                    "type": "number",
+                    "description": "Identificador del usuario"
+                },
+                "id_juego": {
+                    "type": "number",
+                    "description": "Identificador del juego"
+                }
+            }
+        },
+        "TotalCarrito": {
+            "type": "object",
+            "properties": {
+                "id_usuario": {
+                    "type": "number",
+                    "description": "Identificador para saber que carrito de usuario es"
+                },
+                "Total": {
+                    "type": "float",
+                    "description": "Total a pagar del usuario seleccionado"
+                }
+            }
+        },
+        "carrito": {
+            "type": "object",
+            "properties": {
+                "id_usuario": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar el carrito del usuario"
+                },
+                "id_juego": {
+                    "type": "number",
+                    "description": "Identificador del juego"
+                },
+                "precio_juego": {
+                    "type": "float",
+                    "description": "Precio del juego"
+                }
+            }
+        },
+        "carritos": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/carrito"
+            }
+        },
+        "nuevaVenta": {
+            "type": "object",
+            "properties": {
+                "id_usuario": {
+                    "type": "number",
+                    "description": "Identificador para saber que usuario realizo la compra"
+                },
+                "id_juego": {
+                    "type": "number",
+                    "description": "Identificador del juego"
+                }
+            }
+        },
+        "TotalVentas": {
+            "type": "object",
+            "properties": {
+                "id_usuario": {
+                    "type": "number",
+                    "description": "Identificador para saber que usuario realizo la compra"
+                },
+                "Total": {
+                    "type": "float",
+                    "description": "Total pagado del usuario seleccionado"
+                }
+            }
+        },
+        "Venta": {
+            "type": "object",
+            "properties": {
+                "codigo": {
+                    "type": "number",
+                    "description": "Codigo de la compra"
+                },
+                "id_usuario": {
+                    "type": "number",
+                    "description": "Identificador para saber que usuario realizo la compra"
+                },
+                "id_juego": {
+                    "type": "number",
+                    "description": "Identificador del juego"
+                },
+                "precio_juego": {
+                    "type": "float",
+                    "description": "Precio del juego comprado"
+                },
+                "fecha_compra": {
+                    "type": "date",
+                    "description": "Fecha de la compra"
+                }
+            }
+        },
+        "Ventas": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/venta"
+            }
+        }
+    }
+}
