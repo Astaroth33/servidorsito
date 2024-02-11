@@ -2,13 +2,30 @@ import { Request, Response } from 'express';
 import pool from '../database'; //acceso a la base de datos
 class VentasController {
     public async mostrarVentas(req: Request, res: Response): Promise<void> {
-        const respuesta = await pool.query('SELECT * FROM ventas');
+        const respuesta = await pool.query('SELECT v.codigo, u.alias AS alias_usuario, j.nombre AS nombre_juego, v.precio_juego, v.fecha_compra FROM ventas v JOIN usuario u ON v.id_usuario = u.id JOIN juegos j ON v.id_juego = j.id_juego;');
         res.json(respuesta);
+    }
+
+    public async mostrarVentasFecha(req: Request, res: Response): Promise<void> {
+        const parametros = req.body;
+        //console.log (req.body);
+        const respuesta = await pool.query('SELECT v.codigo, u.alias AS alias_usuario, j.nombre AS nombre_juego, v.precio_juego, v.fecha_compra FROM ventas v JOIN usuario u ON v.id_usuario = u.id JOIN juegos j ON v.id_juego = j.id_juego WHERE v.fecha_compra >= ? AND v.fecha_compra<= ? GROUP BY v.fecha_compra;', [parametros.fecha_compra, parametros.fecha_compra_f]);
+        //console.log(respuesta)
+
+        if(respuesta.length>0)
+        {
+            res.json(respuesta);
+        }
+        else
+        {
+            res.json({"id_usuario":"-1"});
+            //res.status(404).json({'mensaje': 'No hay usuarios en biblioteca'});
+        }
     }
 
     public async ventaUsuario(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
-        const respuesta = await pool.query('SELECT * FROM ventas WHERE id_usuario = ?', [id]);
+        const respuesta = await pool.query('SELECT v.codigo, j.nombre AS nombre_juego, v.precio_juego, v.fecha_compra FROM ventas v JOIN juegos j ON v.id_juego = j.id_juego WHERE id_usuario = ?', [id]);
         if(respuesta.length>0)
         {
             res.json(respuesta);
@@ -60,9 +77,10 @@ class VentasController {
     }
 
     public async totalPagado(req: Request, res: Response): Promise<void> {
-        const { id_usuario } = req.params;
-        const resp = await pool.query(`SELECT ROUND(SUM(precio_juego), 2) AS Total FROM ventas WHERE id_usuario = ${id_usuario}`);
-        res.json(resp[0]);
+        const parametros = req.body;
+        console.log ("FECHASPAGADO: ",req.body);
+        const resp = await pool.query('SELECT ROUND(SUM(precio_juego), 2) AS Total FROM ventas  WHERE DATE(fecha_compra) >= ? AND DATE(fecha_compra)<= ? GROUP BY DATE(fecha_compra);', [parametros.fecha_compra, parametros.fecha_compra_f]);
+        
     }
 
 }

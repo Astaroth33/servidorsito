@@ -13,11 +13,12 @@ class VentasRoutes
     {
         //this.router.get('/',(req,res) => res.send('probando ruta'));
         this.router.get('/mostrarVentas/',ventasController.mostrarVentas);
+        this.router.put('/mostrarVentasFechas/',ventasController.mostrarVentasFecha);
+        //this.router.put('/totalPagadoVentas/',ventasController.totalPagado);
         this.router.get('/ventaUsuario/:id',ventasController.ventaUsuario);
-        this.router.get('/totalPagado/:id_usuario',ventasController.totalPagado);//FALTA
+        //this.router.get('/totalPagado/:id_usuario',ventasController.totalPagado);//FALTA
         this.router.post('/ingresaVenta/',ventasController.ingresaVenta);
         this.router.delete('/eliminarVenta/:codigo',ventasController.eliminarVenta);
-
     }
 }
 const ventasRoutes= new VentasRoutes();

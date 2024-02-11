@@ -4,7 +4,7 @@ class BibliotecaControllers
 {
     public async mostrar_biblioteca(req: Request, res: Response ): Promise<void>
     {
-        const respuesta = await pool.query('SELECT * FROM biblioteca');
+        const respuesta = await pool.query('SELECT  u.alias AS alias_usuario, j.nombre AS nombre_juego, b.fecha_compra FROM biblioteca b JOIN usuario u ON b.id_usuario = u.id JOIN juegos j ON b.id_juego = j.id_juego;');
         res.json( respuesta );
     }
     public async usuario_biblioteca(req: Request, res: Response): Promise <void>

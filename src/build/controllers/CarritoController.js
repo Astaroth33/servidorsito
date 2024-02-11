@@ -17,7 +17,7 @@ const database_1 = __importDefault(require("../database")); //acceso a la base d
 class CarritoController {
     mostrar_carritos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const respuesta = yield database_1.default.query('SELECT * FROM carrito');
+            const respuesta = yield database_1.default.query('SELECT u.alias AS alias_usuario, j.nombre AS nombre_juego, ca.precio_juego FROM carrito ca JOIN usuario u ON ca.id_usuario = u.id JOIN juegos j ON ca.id_juego = j.id_juego');
             res.json(respuesta);
         });
     }

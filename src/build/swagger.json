@@ -300,10 +300,9 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "id_usuario": 1,
-                                    "id_juego": 2,
-                                    "fecha_compra": "2020-06-09",
-                                    "precio_juego": 999.00
+                                    "alias_usuario": "Astaroth",
+                                    "nombre_juego": "Mortal Kombat",
+                                    "fecha_compra": "2020-06-09"
                                 }
                             ]
                         },
@@ -339,8 +338,7 @@
                                 {
                                     "id_usuario": 1,
                                     "id_juego": 5,
-                                    "fecha_compra": "2020-06-09",
-                                    "precio_juego": 55.00
+                                    "fecha_compra": "2020-06-09"
                                 }
                             ]
                         },
@@ -387,8 +385,8 @@
                                     "id_juego": 1,
                                     "nombre": "Mortal Kombat",
                                     "fecha_lanzamiento": "2023-19-09",
-                                    "clasificacion": "+18",
-                                    "plataforma": "playstation",
+                                    "clasificacion": "18+",
+                                    "plataforma": "Playstation",
                                     "precio": 999.00
                                 }
                             ]
@@ -426,7 +424,7 @@
                                     "id_juego": 10,
                                     "nombre": "Mortal Kombat",
                                     "fecha_lanzamiento": "2023-19-09",
-                                    "clasificacion": "+18",
+                                    "clasificacion": "18+",
                                     "plataforma": "Playstation",
                                     "precio": 999.00
                                 },
@@ -434,7 +432,7 @@
                                     "id_juego": 9,
                                     "nombre": "Soul Calibur V",
                                     "fecha_lanzamiento": "2023-19-09",
-                                    "clasificacion": "A",
+                                    "clasificacion": "12+",
                                     "plataforma": "PC",
                                     "precio": 999.00
                                 }
@@ -638,8 +636,8 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "id_usuario": 1,
-                                    "id_juego": 2,
+                                    "alias_usuario": "Chato",
+                                    "nombre_juego": "Soul Calibur VI",
                                     "precio_juego": 145.32
                                 }
                             ]
@@ -758,7 +756,7 @@
                     "Carrito"
                 ],
                 "summary": "Elimina algun producto del carrito",
-                "description": "<p>Servicio que elimina algun alrticulo del carrito dado el id del usuario enviado</p>",
+                "description": "<p>Servicio que elimina algun alrticulo del carrito dado el id del juego enviado</p>",
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -779,7 +777,7 @@
                         "name": "id",
                         "in": "path",
                         "required": true,
-                        "description": "identificador del usuario",
+                        "description": "identificador del juego",
                         "type": "number",
                         "default": "1"
                     }
@@ -872,15 +870,15 @@
                             "application/json": [
                                 {
                                     "Codigo": 1,
-                                    "id_usuario": 3,
-                                    "id_juego": 3,
+                                    "alias_usuario": "Chato",
+                                    "nombre_juego": "FarCry",
                                     "precio_juego": 999.00,
                                     "fecha_compra": "2015-01-01"
                                 },
                                 {
                                     "Codigo": 2,
-                                    "id_usuario": 3,
-                                    "id_juego": 13,
+                                    "alias_usuario": "Astaroth",
+                                    "nombre_juego": "God of war",
                                     "precio_juego": 565.50,
                                     "fecha_compra": "2015-01-01"
                                 }
@@ -903,6 +901,56 @@
                     }]
             }
         },
+        "/api/ventas/mostrarVentasFechas": {
+            "put": {
+                "summary": "Envio de fechas para obtener las ventas correspondientes",
+                "operationId": "update",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "apiKey",
+                        "type": "string",
+                        "in": "header",
+                        "name": "Authorization",
+                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
+                    },
+                    {
+                        "name": "fecha_compra_i",
+                        "in": "body",
+                        "description": "Fecha de inicio",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Fecha"
+                        }
+                    },
+                    {
+                        "name": "fecha_compra_f",
+                        "in": "body",
+                        "description": "Fecha de fin",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Fecha"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Ventas"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
         "/api/ventas/ventaUsuario/{id}": {
             "get": {
                 "tags": [
@@ -917,8 +965,8 @@
                             "application/json": [
                                 {
                                     "Codigo": 1,
-                                    "id_usuario": 3,
-                                    "id_juego": 3,
+                                    "alias_usuario": "Chato",
+                                    "nombre_juego": "FarCry",
                                     "precio_juego": 999.00,
                                     "fecha_compra": "2022-05-11"
                                 }
@@ -942,51 +990,6 @@
                     },
                     {
                         "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "description": "identificador del usuario",
-                        "type": "number",
-                        "default": 1
-                    }
-                ]
-            }
-        },
-        "/api/ventas/totalPagado/{id_usuario}": {
-            "get": {
-                "tags": [
-                    "Ventas"
-                ],
-                "summary": "Obtiene el total pagado",
-                "description": "<p>Servicio que devuelve la información del total que ha gastado el usuario en juegos</p>",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "examples": {
-                            "application/json": [
-                                {
-                                    "id_usuario": 3,
-                                    "Total": 5321.23
-                                }
-                            ]
-                        },
-                        "schema": {
-                            "$ref": "#/definitions/TotalVentas"
-                        }
-                    },
-                    "403": {
-                        "description": "Prohibido"
-                    }
-                },
-                "parameters": [
-                    {
-                        "description": "apiKey",
-                        "type": "string",
-                        "in": "header",
-                        "name": "Authorization",
-                        "default": "eyJhbGciOiJIUzI1NiJ9.ZXJpa3VlQGdtYWlsLmNvbQ.v7atXtnZ9F14ahwqCSjYKQirsvjs5aWQ4MrPz-BCBSk"
-                    },
-                    {
-                        "name": "id_usuario",
                         "in": "path",
                         "required": true,
                         "description": "identificador del usuario",
@@ -1107,17 +1110,30 @@
                 "fecha_compra": {
                     "type": "date",
                     "description": "Fecha en el que compro el juego"
+                }
+            }
+        },
+        "Biblioteca2": {
+            "type": "object",
+            "properties": {
+                "alias_usuario": {
+                    "type": "string",
+                    "description": "Nombre o alias del usuario"
                 },
-                "precio_juego": {
-                    "type": "float",
-                    "description": "Precio del juego que adquirio"
+                "nombre_juego": {
+                    "type": "string",
+                    "description": "Nombre del juego"
+                },
+                "fecha_compra": {
+                    "type": "date",
+                    "description": "Fecha en el que compro el juego"
                 }
             }
         },
         "Bibliotecas": {
             "type": "array",
             "items": {
-                "$ref": "#/definitions/Biblioteca"
+                "$ref": "#/definitions/Biblioteca2"
             }
         },
         "Juego": {
@@ -1223,10 +1239,27 @@
                 }
             }
         },
+        "carrito2": {
+            "type": "object",
+            "properties": {
+                "alias_usuario": {
+                    "type": "string",
+                    "description": "Nombre o alias del usuario"
+                },
+                "nombre_juego": {
+                    "type": "string",
+                    "description": "Nombre del juego"
+                },
+                "precio_juego": {
+                    "type": "float",
+                    "description": "Precio del juego"
+                }
+            }
+        },
         "carritos": {
             "type": "array",
             "items": {
-                "$ref": "#/definitions/carrito"
+                "$ref": "#/definitions/carrito2"
             }
         },
         "nuevaVenta": {
@@ -1242,19 +1275,6 @@
                 }
             }
         },
-        "TotalVentas": {
-            "type": "object",
-            "properties": {
-                "id_usuario": {
-                    "type": "number",
-                    "description": "Identificador para saber que usuario realizo la compra"
-                },
-                "Total": {
-                    "type": "float",
-                    "description": "Total pagado del usuario seleccionado"
-                }
-            }
-        },
         "Venta": {
             "type": "object",
             "properties": {
@@ -1262,13 +1282,13 @@
                     "type": "number",
                     "description": "Codigo de la compra"
                 },
-                "id_usuario": {
-                    "type": "number",
-                    "description": "Identificador para saber que usuario realizo la compra"
+                "alias_usuario": {
+                    "type": "string",
+                    "description": "Nombre o alias del usuario"
                 },
-                "id_juego": {
-                    "type": "number",
-                    "description": "Identificador del juego"
+                "nombre_juego": {
+                    "type": "string",
+                    "description": "Nombre del juego"
                 },
                 "precio_juego": {
                     "type": "float",
@@ -1280,10 +1300,23 @@
                 }
             }
         },
+        "Fecha": {
+            "type": "object",
+            "properties": {
+                "fecha_compra_i": {
+                    "type": "string",
+                    "description": "Fecha de inicio"
+                },
+                "fecha_compra_f": {
+                    "type": "string",
+                    "description": "Fecha de inicio"
+                }
+            }
+        },
         "Ventas": {
             "type": "array",
             "items": {
-                "$ref": "#/definitions/venta"
+                "$ref": "#/definitions/Venta"
             }
         }
     }

@@ -4,7 +4,7 @@ class CarritoController
 {
     public async mostrar_carritos(req: Request, res: Response ): Promise<void>
     {
-        const respuesta = await pool.query('SELECT * FROM carrito');
+        const respuesta = await pool.query('SELECT u.alias AS alias_usuario, j.nombre AS nombre_juego, ca.precio_juego FROM carrito ca JOIN usuario u ON ca.id_usuario = u.id JOIN juegos j ON ca.id_juego = j.id_juego');
         res.json( respuesta );
     }
 

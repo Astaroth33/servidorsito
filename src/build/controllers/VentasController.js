@@ -17,14 +17,29 @@ const database_1 = __importDefault(require("../database")); //acceso a la base d
 class VentasController {
     mostrarVentas(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const respuesta = yield database_1.default.query('SELECT * FROM ventas');
+            const respuesta = yield database_1.default.query('SELECT v.codigo, u.alias AS alias_usuario, j.nombre AS nombre_juego, v.precio_juego, v.fecha_compra FROM ventas v JOIN usuario u ON v.id_usuario = u.id JOIN juegos j ON v.id_juego = j.id_juego;');
             res.json(respuesta);
+        });
+    }
+    mostrarVentasFecha(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const parametros = req.body;
+            //console.log (req.body);
+            const respuesta = yield database_1.default.query('SELECT v.codigo, u.alias AS alias_usuario, j.nombre AS nombre_juego, v.precio_juego, v.fecha_compra FROM ventas v JOIN usuario u ON v.id_usuario = u.id JOIN juegos j ON v.id_juego = j.id_juego WHERE v.fecha_compra >= ? AND v.fecha_compra<= ? GROUP BY v.fecha_compra;', [parametros.fecha_compra, parametros.fecha_compra_f]);
+            //console.log(respuesta)
+            if (respuesta.length > 0) {
+                res.json(respuesta);
+            }
+            else {
+                res.json({ "id_usuario": "-1" });
+                //res.status(404).json({'mensaje': 'No hay usuarios en biblioteca'});
+            }
         });
     }
     ventaUsuario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const respuesta = yield database_1.default.query('SELECT * FROM ventas WHERE id_usuario = ?', [id]);
+            const respuesta = yield database_1.default.query('SELECT v.codigo, j.nombre AS nombre_juego, v.precio_juego, v.fecha_compra FROM ventas v JOIN juegos j ON v.id_juego = j.id_juego WHERE id_usuario = ?', [id]);
             if (respuesta.length > 0) {
                 res.json(respuesta);
             }
@@ -74,9 +89,9 @@ class VentasController {
     }
     totalPagado(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id_usuario } = req.params;
-            const resp = yield database_1.default.query(`SELECT ROUND(SUM(precio_juego), 2) AS Total FROM ventas WHERE id_usuario = ${id_usuario}`);
-            res.json(resp[0]);
+            const parametros = req.body;
+            console.log("FECHASPAGADO: ", req.body);
+            const resp = yield database_1.default.query('SELECT ROUND(SUM(precio_juego), 2) AS Total FROM ventas  WHERE DATE(fecha_compra) >= ? AND DATE(fecha_compra)<= ? GROUP BY DATE(fecha_compra);', [parametros.fecha_compra, parametros.fecha_compra_f]);
         });
     }
 }

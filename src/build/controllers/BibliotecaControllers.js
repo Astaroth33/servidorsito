@@ -17,7 +17,7 @@ const database_1 = __importDefault(require("../database")); //acceso a la base d
 class BibliotecaControllers {
     mostrar_biblioteca(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const respuesta = yield database_1.default.query('SELECT * FROM biblioteca');
+            const respuesta = yield database_1.default.query('SELECT  u.alias AS alias_usuario, j.nombre AS nombre_juego, b.fecha_compra FROM biblioteca b JOIN usuario u ON b.id_usuario = u.id JOIN juegos j ON b.id_juego = j.id_juego;');
             res.json(respuesta);
         });
     }

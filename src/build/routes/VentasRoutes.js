@@ -10,8 +10,10 @@ class VentasRoutes {
     config() {
         //this.router.get('/',(req,res) => res.send('probando ruta'));
         this.router.get('/mostrarVentas/', VentasController_1.ventasController.mostrarVentas);
+        this.router.put('/mostrarVentasFechas/', VentasController_1.ventasController.mostrarVentasFecha);
+        //this.router.put('/totalPagadoVentas/',ventasController.totalPagado);
         this.router.get('/ventaUsuario/:id', VentasController_1.ventasController.ventaUsuario);
-        this.router.get('/totalPagado/:id_usuario', VentasController_1.ventasController.totalPagado); //FALTA
+        //this.router.get('/totalPagado/:id_usuario',ventasController.totalPagado);//FALTA
         this.router.post('/ingresaVenta/', VentasController_1.ventasController.ingresaVenta);
         this.router.delete('/eliminarVenta/:codigo', VentasController_1.ventasController.eliminarVenta);
     }
